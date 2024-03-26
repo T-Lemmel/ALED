@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(map_msgs REQUIRED)
 
 
 include_directories(include)
@@ -20,7 +21,7 @@ include/astar_path_planner/a_star.h
 include/astar_path_planner/point.h
 )
 add_executable(path_planner_cell_node src/path_planner_cell_node.cpp ${HEADER_FILES})
-ament_target_dependencies(path_planner_cell_node rclcpp geometry_msgs nav_msgs)
+ament_target_dependencies(path_planner_cell_node rclcpp geometry_msgs nav_msgs map_msgs)
 target_include_directories(path_planner_cell_node PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>

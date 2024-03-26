@@ -11,9 +11,10 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <nav_msgs/msg/occupancy_grid.hpp>
+#include <map_msgs/msg/occupancy_grid_update.hpp>
 #include <geometry_msgs/msg/pose.hpp>
 #include <nav_msgs/msg/path.hpp>
-
+#include <nav_msgs/msg/odometry.hpp>
 
 using namespace std::chrono_literals;
 using namespace std;
@@ -30,11 +31,13 @@ public:
 
 
         // Create a subscrber that get information to update the Map
-        map_sub = create_subscription<nav_msgs::msg::OccupancyGrid>("mapping", 10,std::bind(&path_planner_cell_node::updateMap, this, std::placeholders::_1));
+        map_sub = create_subscription<nav_msgs::msg::OccupancyGrid>("WorldMap", 10,std::bind(&path_planner_cell_node::MapInit, this, std::placeholders::_1));
+        // Create a subscrber that get information to update the Map
+        map_update_sub = create_subscription<map_msgs::msg::OccupancyGridUpdate>("WorldMapUpdates", 10,std::bind(&path_planner_cell_node::updateMap, this, std::placeholders::_1));
 
         // Create subscribers that will receive a geometry_msgs::msgs::Pose message
         //position of the ship
-        pos_sub = create_subscription<geometry_msgs::msg::Pose>("position", 10, std::bind(&path_planner_cell_node::positionCallback, this, std::placeholders::_1));
+        pos_sub = create_subscription<nav_msgs::msg::Odometry>("wamv/odom", 10, std::bind(&path_planner_cell_node::positionCallback, this, std::placeholders::_1));
         //position of the target
         targ_pos_sub = create_subscription<geometry_msgs::msg::Pose>("target_position", 10, std::bind(&path_planner_cell_node::targetCallback, this, std::placeholders::_1));
 
@@ -59,19 +62,26 @@ public:
     };
 
 
-    void updateMap(const nav_msgs::msg::OccupancyGrid &NewMap)
+    void MapInit(const nav_msgs::msg::OccupancyGrid &NewMap)
     {
+        cout<<"Map Received"<<endl;
         map.data = NewMap.data;
         map.info = NewMap.info;
         map_init = true;
         if(map_init && targ_init && my_posinit) initialisation_done = true;
     }
 
-
-    void positionCallback(const geometry_msgs::msg::Pose &msg)
+    void updateMap(const  map_msgs::msg::OccupancyGridUpdate &NewMap)
     {
-        my_position.x_ = msg.position.x;
-        my_position.y_ = msg.position.y;
+        cout<<"Map Update Received"<<endl;
+        // TODO 
+    }
+
+    void positionCallback(const nav_msgs::msg::Odometry &msg)
+    {
+        cout<<"Position Callback"<<endl;
+        my_position.x_ = msg.pose.pose.position.x;
+        my_position.y_ = msg.pose.pose.position.y;
         my_posinit = true;
         if(map_init && targ_init && my_posinit) initialisation_done = true;
     }
@@ -105,6 +115,7 @@ public:
 
                     cout<<"Path changed "<<index<<" times"<<endl;
                 }
+                cout<<"Path published"<<endl;
                 path_pub->publish(Path);
             }
         }
@@ -115,7 +126,8 @@ public:
 
     //Talk and subscribe
     rclcpp::Subscription<nav_msgs::msg::OccupancyGrid>::SharedPtr map_sub;
-    rclcpp::Subscription<geometry_msgs::msg::Pose>::SharedPtr pos_sub;
+    rclcpp::Subscription<nav_msgs::msg::OccupancyGrid>::SharedPtr map_update_sub;
+    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr pos_sub;
     rclcpp::Subscription<geometry_msgs::msg::Pose>::SharedPtr targ_pos_sub;
     rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_pub;
     rclcpp::TimerBase::SharedPtr timer_;

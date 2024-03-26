@@ -5,7 +5,6 @@
 #include <tf2_ros/transform_broadcaster.h>
 #include <geometry_msgs/msg/transform_stamped.h>
 
-
 using namespace std::chrono_literals;
 using std::placeholders::_1;
 
@@ -16,10 +15,8 @@ public:
     {
         // Publishers for map, start position, and goal position
         map_pub = this->create_publisher<nav_msgs::msg::OccupancyGrid>("mapping", 10);
-        start_pub = this->create_publisher<geometry_msgs::msg::Pose>("position", 10);
         goal_pub = this->create_publisher<geometry_msgs::msg::Pose>("target_position", 10);
         tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(*this);
-
 
         // Timer to periodically publish test data
         timer_ = this->create_wall_timer(4s, std::bind(&TestPathPlannerNode::timer_callback, this));
@@ -36,8 +33,8 @@ private:
 
         // Publish the test data
         publish_transforms();
-        map_pub->publish(map);
-        start_pub->publish(start);
+        //map_pub->publish(map);
+        //start_pub->publish(start);
         goal_pub->publish(goal);
     }
 
@@ -140,7 +137,6 @@ private:
     }
 
     rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr map_pub;
-    rclcpp::Publisher<geometry_msgs::msg::Pose>::SharedPtr start_pub;
     rclcpp::Publisher<geometry_msgs::msg::Pose>::SharedPtr goal_pub;
     std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
     rclcpp::TimerBase::SharedPtr timer_;
