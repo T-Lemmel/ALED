@@ -44,10 +44,10 @@ public:
         // Create a timer that will call the timer_callback function
         timer_ = this->create_wall_timer(500ms, std::bind(&path_planner_cell_node::timer_callback, this));
 
-        // Create a publisher on the topic ??? for the PID to get the next waypoint
+        // Create a publisher on the topic xxx for the PID to get the next waypoint
         path_pub = create_publisher<nav_msgs::msg::Path>("waypoint", 10);
 
-        //initialise pointZero orientation, mais est-ce vraiment utile?
+        //initialise pointZero orientation
         pointZero.orientation.set__w(0);
         pointZero.orientation.set__x(0);
         pointZero.orientation.set__y(0);
@@ -74,7 +74,18 @@ public:
     void updateMap(const  map_msgs::msg::OccupancyGridUpdate &NewMap)
     {
         cout<<"Map Update Received"<<endl;
-        // TODO 
+        auto x = NewMap.x;
+        auto y = NewMap.y;
+        auto width = NewMap.width;
+        auto height = NewMap.height;
+        auto data = NewMap.data;
+        for(int i=0;i<height;i++)
+        {
+            for(int j=0;j<width;j++)
+            {
+                map.data[(y+i)*map.info.width+x+j] = data[i*width+j];
+            }
+        }
     }
 
     void positionCallback(const nav_msgs::msg::Odometry &msg)

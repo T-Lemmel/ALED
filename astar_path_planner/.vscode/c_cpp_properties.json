@@ -1,0 +1,33 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/obiwann/ros2_ws/install/my_robot_interfaces/include/**",
+        "/home/obiwann/ros2_ws/install/integ_trajec/include/**",
+        "/home/obiwann/ros2_ws/install/integ_msgs/include/**",
+        "/home/obiwann/ros2_ws/install/impedance_controller/include/**",
+        "/home/obiwann/ros2_ws/install/iiwa_hardware/include/**",
+        "/home/obiwann/ros2_ws/install/external_torque_sensor_broadcaster/include/**",
+        "/opt/ros/humble/include/**",
+        "/home/obiwann/ros2_ws/src/Aquabot Matis/ALED/aquabot_ekf/include/**",
+        "/home/obiwann/ros2_ws/src/Aquabot Matis/ALED/astar_path_planner/include/**",
+        "/home/obiwann/ros2_ws/src/INTEG_project/integration_project_ecn/integ_trajec/include/**",
+        "/home/obiwann/ros2_ws/src/iiwa_ros2/iiwa_controllers/external_torque_sensor_broadcaster/include/**",
+        "/home/obiwann/ros2_ws/src/iiwa_ros2/iiwa_controllers/impedance_controller/include/**",
+        "/home/obiwann/ros2_ws/src/iiwa_ros2/iiwa_hardware/include/**",
+        "include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

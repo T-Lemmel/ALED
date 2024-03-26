@@ -1,3 +1,29 @@
 {
-  "cmake.buildDirectory": "/home/t-lemmel/Aquabot_Tom/build/astar_path_planner",
-   "editor.mouseWheelZoom": true}
+  "cmake.buildDirectory": "/home/obiwann/ros2_ws/build/astar_path_planner",
+  "editor.mouseWheelZoom": true,
+  "python.autoComplete.extraPaths": [
+    "/home/obiwann/ros2_ws/install/package_example/local/lib/python3.10/dist-packages",
+    "/home/obiwann/ros2_ws/install/opencv_example/local/lib/python3.10/dist-packages",
+    "/home/obiwann/ros2_ws/install/my_robot_interfaces/local/lib/python3.10/dist-packages",
+    "/home/obiwann/ros2_ws/install/integ_msgs/local/lib/python3.10/dist-packages",
+    "/home/obiwann/ros2_ws/build/iiwa_ropah",
+    "/home/obiwann/ros2_ws/install/iiwa_ropah/lib/python3.10/site-packages",
+    "/home/obiwann/vrx_ws/install/local/lib/python3.10/dist-packages",
+    "/opt/ros/humble/lib/python3.10/site-packages",
+    "/opt/ros/humble/local/lib/python3.10/dist-packages"
+  ],
+  "python.analysis.extraPaths": [
+    "/home/obiwann/ros2_ws/install/package_example/local/lib/python3.10/dist-packages",
+    "/home/obiwann/ros2_ws/install/opencv_example/local/lib/python3.10/dist-packages",
+    "/home/obiwann/ros2_ws/install/my_robot_interfaces/local/lib/python3.10/dist-packages",
+    "/home/obiwann/ros2_ws/install/integ_msgs/local/lib/python3.10/dist-packages",
+    "/home/obiwann/ros2_ws/build/iiwa_ropah",
+    "/home/obiwann/ros2_ws/install/iiwa_ropah/lib/python3.10/site-packages",
+    "/home/obiwann/vrx_ws/install/local/lib/python3.10/dist-packages",
+    "/opt/ros/humble/lib/python3.10/site-packages",
+    "/opt/ros/humble/local/lib/python3.10/dist-packages"
+  ],
+  "files.associations": {
+    "ostream": "cpp"
+  }
+}
