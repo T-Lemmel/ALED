@@ -10,8 +10,8 @@
 #include <ctime>
 #include <my_robot_interfaces/msg/centroid_with_radius.hpp>
 #include <my_robot_interfaces/msg/centroid_array_with_radius.hpp>
-#include <tf2_ros/static_transform_broadcaster.h>
-#include <tf2/LinearMath/Quaternion.h>
+//#include <tf2_ros/static_transform_broadcaster.h>
+//#include <tf2/LinearMath/Quaternion.h>
 
 // TO DO : Make sure the update topic doesn't publish out of bounds and reduce initial map publishing time ( ligne 36-41 )
 
@@ -63,8 +63,8 @@ private:
 
 
     void BoatPoseCallback(const nav_msgs::msg::Odometry::SharedPtr msg ){
-      boat_X = msg->pose.pose.position.x;
-      boat_Y = msg->pose.pose.position.y;
+      posX = msg->pose.pose.position.x;
+      posY = msg->pose.pose.position.y;
     }
 
 
@@ -73,6 +73,18 @@ private:
       {
 
         std::cout << "traitement centroides";
+        if (count == refresh)
+        {
+            UpdateMap(posX,posY,100,0);
+            //UpdateMap(posX,posY,1,-1);
+            count = 0;
+        }
+        else
+        {
+            count=count+1;
+        }
+
+
         for (const my_robot_interfaces::msg::CentroidWithRadius& centroid : CentroidsWithRadius->centroids)
         {
           auto center = centroid.position;
@@ -80,21 +92,13 @@ private:
           int x = (int)center.x;
           int y = (int)center.y;
           int r = (int)radius;
-          UpdateMap(x,y,r,1);
+          if (-100<x-posX && x-posX<100 && -100<y-posY && y-posY<100)
+          {
+            UpdateMap(x,y,r,1);
+          }
         }
-        UpdateBoat();
       }
 
-
-
-    void UpdateBoat()
-      {
-        UpdateMap(oldposx-50,oldposy-50,100,0);
-        oldposx = (int)boat_X;
-        oldposy = (int)boat_Y,
-        UpdateMap(oldposx,oldposy,1,-1);
-        
-      }
 
 
 
@@ -122,10 +126,12 @@ private:
       rclcpp::Publisher<map_msgs::msg::OccupancyGridUpdate>::SharedPtr MapUpdatePublisher_;
       nav_msgs::msg::OccupancyGrid map_;
 
-      int oldposx = 500;
-      int oldposy = 500;
-      int boat_X = 500;
-      int boat_Y = 500;
+
+      int posX = 0;
+      int posY = 0;
+
+      int count = 0;
+      int refresh = 10;
 };
 
 int main(int argc, char** argv) {
