@@ -17,6 +17,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
 ament_auto_add_executable(gps2pose src/gps2pose.cpp)
+ament_auto_add_executable(tracker src/tracker.cpp)
 target_link_libraries(gps2pose ${GeographicLib_LIBRARIES})
 
 install(DIRECTORY launch params
